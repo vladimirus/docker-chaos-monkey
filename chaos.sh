@@ -6,6 +6,8 @@ function delim {
     echo "----------------------------------------------------------------------------"
 }
 
+printf "\n---- Start: %s ----\n" "`date`"
+
 if [ -z "${DOCKER_LABEL}" ]; then
 	echo 'DOCKER_LABEL not provided (empty). Usage: DOCKER_LABEL="role=disposable" ./chaos.sh'
 	exit 1
