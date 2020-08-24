@@ -61,15 +61,18 @@ while read -r SERVICE; do
 		continue
 	fi
 
-	# find a running container on the current node
-	NODE=$(uname -n)
-	echo $NODE
-	CONTAINER=$(docker service ps ${service_id} -f node=${NODE} -f 'desired-state=running' --no-trunc | tail -n +2 | head -n 1 | awk '{print $2 "." $1}')
+	CONTAINER=$(docker service ps ${service_id} -f 'desired-state=running' --no-trunc | tail -n +2 | head -n 1 | awk '{print $2 "." $1}')
 
 	if [ -z "${CONTAINER}" ]; then
-		echo -e "no containers running on current host - ${color_yellow}skipping${color_reset}"
+		echo -e "no containers running - ${color_yellow}skipping${color_reset}"
 		continue
 	fi
+
+  FLIP_COIN=$(($(($RANDOM%10))%2))
+  if [ FLIP_COIN -eq 1 ];then
+      echo -e "coin flip: heads! - ${color_yellow}skipping${color_reset}"
+      continue
+  else
 
 	# use docker rm -f (force remove) - container should disappear not just exit gracefully.
 	echo -e "${color_green}removing a container${color_reset}"
