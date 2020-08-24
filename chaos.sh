@@ -61,15 +61,28 @@ while read -r SERVICE; do
 		continue
 	fi
 
-	CONTAINER=$(docker service ps ${service_id} -f 'desired-state=running' --no-trunc | tail -n +2 | head -n 1 | awk '{print $2 "." $1}')
-
-	if [ -z "${CONTAINER}" ]; then
+	CONTAINERS=$(docker service ps ${service_id} -f 'desired-state=running' --no-trunc | tail -n +2 | awk '{print $2 "." $1}')
+	if [ -z "${CONTAINERS}" ]; then
 		echo -e "no containers running - ${color_yellow}skipping${color_reset}"
 		continue
 	fi
 
+  while read -r POTENTIAL_CONTAINER; do
+    FLIP_COIN=$(($(($RANDOM%10))%2))
+    if [ $FLIP_COIN -eq 1 ]; then
+      CONTAINER = $POTENTIAL_CONTAINER
+      echo -e "container chosen"
+      break
+    fi
+  done <<< "$CONTAINERS"
+
+  if [ -z "${CONTAINER}" ]; then
+		echo -e "no containers chosen - ${color_yellow}skipping${color_reset}"
+		continue
+	fi
+
   FLIP_COIN=$(($(($RANDOM%10))%2))
-  if [ $FLIP_COIN -eq 1 ];then
+  if [ $FLIP_COIN -eq 1 ]; then
       echo -e "coin flip: heads! - ${color_yellow}skipping${color_reset}"
       continue
   fi
