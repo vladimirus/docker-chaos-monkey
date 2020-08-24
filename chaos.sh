@@ -69,7 +69,7 @@ while read -r SERVICE; do
 	fi
 
   FLIP_COIN=$(($(($RANDOM%10))%2))
-  if [ FLIP_COIN -eq 1 ];then
+  if [ $FLIP_COIN -eq 1 ];then
       echo -e "coin flip: heads! - ${color_yellow}skipping${color_reset}"
       continue
   fi
