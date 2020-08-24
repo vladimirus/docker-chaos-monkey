@@ -72,7 +72,7 @@ while read -r SERVICE; do
   if [ FLIP_COIN -eq 1 ];then
       echo -e "coin flip: heads! - ${color_yellow}skipping${color_reset}"
       continue
-  else
+  fi
 
 	# use docker rm -f (force remove) - container should disappear not just exit gracefully.
 	echo -e "${color_green}removing a container${color_reset}"
