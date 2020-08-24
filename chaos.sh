@@ -70,7 +70,7 @@ while read -r SERVICE; do
   while read -r POTENTIAL_CONTAINER; do
     FLIP_COIN=$(($(($RANDOM%10))%2))
     if [ $FLIP_COIN -eq 1 ]; then
-      CONTAINER = ($POTENTIAL_CONTAINER)
+      CONTAINER=$POTENTIAL_CONTAINER
       echo -e "container chosen"
       break
     fi
