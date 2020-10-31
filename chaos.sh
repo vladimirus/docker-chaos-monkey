@@ -75,6 +75,7 @@ while read -r SERVICE; do
   echo -e -n "${color_white}> "
   docker rm -f $CONTAINER
   echo -e "${color_reset}"
+  echo -n "chaos.remove.${service_name}.${service_id}:1|c" | nc -w 1 -u 127.0.0.1 8125
 
 done <<<"$SERVICES"
 
